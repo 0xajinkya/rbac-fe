@@ -114,7 +114,7 @@ export const StaffPage = () => {
                 <Typography
                     sx={{
                         fontSize: "24px",
-                        fontWeight: 500
+                        fontWeight: "bold"
                     }}
                 >
                     Staff
@@ -184,7 +184,7 @@ const AddStaffModal = ({
         if (open === true) {
             ListOfUsersToAdd();
         }
-    }, [open]);
+    }, [open, organization_id]);
 
     const AddStaff = async () => {
         setLoading(true);
@@ -194,9 +194,9 @@ const AddStaffModal = ({
                 setStaff((st) => ([res.content.data, ...st]));
             }
             enqueueSnackbar({ message: "Staff added successfully!", variant: "success" });
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        } catch (error) {
-            enqueueSnackbar({ message: "Failed to add staff!", variant: "error" });
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            enqueueSnackbar({ message: error?.response.data?.errors[0].message ?? "Failed to add staff!", variant: "error" });
         } finally {
             setLoading(false);
         }

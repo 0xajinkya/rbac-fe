@@ -1,4 +1,4 @@
-import { IBlog, IBlogCommentExpanded, IBlogQuery, IQuery, IResponse, IReviewExpanded } from "@interfaces/common";
+import { IBlog, IBlogCommentExpanded, IBlogQuery, IBlogWithReview, IQuery, IResponse, IReviewExpanded } from "@interfaces/common";
 import http from "@utils/axios";
 
 const Update = async (id: string, data: Pick<IBlog, "title" | "content" | "published">, organization_id?: string | null) => {
@@ -11,7 +11,7 @@ const Update = async (id: string, data: Pick<IBlog, "title" | "content" | "publi
 }
 
 const Create = async (data: Pick<IBlog, "title" | "content" | "published">, organization_id?: string | null) => {
-    const response = await http.post<IResponse<IBlogQuery>>("/blog", data, {
+    const response = await http.post<IResponse<IBlogWithReview>>("/blog", data, {
         headers: {
             "X-Org": organization_id
         }
@@ -39,7 +39,7 @@ const Query = async ({organization_id, query}: {organization_id?: string | null,
 }
 
 const Publish = async (id: string, organization_id?: string | null) => {
-    const response = await http.put<IResponse<IBlogQuery>>(`/blog/${id}/publish`, {}, {
+    const response = await http.put<IResponse<IBlogWithReview>>(`/blog/${id}/publish`, {}, {
         headers: {
             "X-Org": organization_id
         }
@@ -48,7 +48,7 @@ const Publish = async (id: string, organization_id?: string | null) => {
 }
 
 const UnPublish = async (id: string, organization_id?: string | null) => {
-    const response = await http.put<IResponse<IBlogQuery>>(`/blog/${id}/un-publish`, {}, {
+    const response = await http.put<IResponse<IBlogWithReview>>(`/blog/${id}/un-publish`, {}, {
         headers: {
             "X-Org": organization_id
         }

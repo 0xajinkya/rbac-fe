@@ -1,9 +1,9 @@
 "use client";
 
 import { GlobalContext } from "@context/global"
-import { Circle } from "@mui/icons-material";
+import { Circle, Close } from "@mui/icons-material";
 import { LoadingButton } from "@mui/lab";
-import { Box, Fade, Modal, Typography } from "@mui/material"
+import { Box, Fade, IconButton, Modal, Typography } from "@mui/material"
 import { enqueueSnackbar } from "notistack";
 import { useContext, useEffect, useState } from "react"
 
@@ -26,7 +26,7 @@ export const OpenOrgModal = () => {
         if (openMemberOrgModal) {
             FetchMemberOrganizations();
         }
-    }, [openMemberOrgModal])
+    }, [openMemberOrgModal, FetchMemberOrganizations]);
 
     return (
         <Modal
@@ -44,11 +44,30 @@ export const OpenOrgModal = () => {
                 <Box
                     sx={{
                         width: "20vw",
-                        height: "50vh",
+                        maxHeight: "50vh",
+                        height: "auto",
                         backgroundColor: "white",
                         borderRadius: "24px",
                     }}
                 >
+                    <Box
+                        sx={{
+                            display: "flex",
+                            flexDirection: "row-reverse",
+                            mr: "12px",
+                            mt: "12px"
+                        }}
+                    >
+                        <IconButton
+                            onClick={onClose}
+                        >
+                            <Close
+                                sx={{
+                                    color: "black"
+                                }}
+                            />
+                        </IconButton>
+                    </Box>
                     <Box
                         sx={{
                             p: "24px",
@@ -57,6 +76,29 @@ export const OpenOrgModal = () => {
                             gap: "24px"
                         }}
                     >
+                        {memberOrganizations?.length === 0 &&
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    gap: "12px"
+                                }}
+                            >
+                                <Typography
+                                    sx={{
+                                        fontSize: "24px",
+                                        fontWeight: "bold"
+                                    }}
+                                >
+                                    No Organizations
+                                </Typography>
+                                <Typography>
+                                    You are not a part of any organizations.
+                                </Typography>
+                            </Box>
+                        }
                         {memberOrganizations?.map((or, index) => {
                             return (
                                 <Box
@@ -124,7 +166,7 @@ export const OpenOrgModal = () => {
                                                 try {
                                                     await LoginToOrganization(or.id)
                                                     enqueueSnackbar({ message: "Logged in to the organization!", variant: "success" })
-                                                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                                                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                                                 } catch (error) {
                                                     enqueueSnackbar({ message: "Cannot log into this org, at this moment!", variant: "error" })
                                                 } finally {

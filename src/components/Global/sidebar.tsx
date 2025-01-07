@@ -94,14 +94,18 @@ export const Sidebar = () => {
                         text="Home"
                         onClick={() => router.push("/")}
                     />
-                    <NormalButton
-                        text="Users"
-                        onClick={() => router.push("/users")}
-                    />
-                    <NormalButton
-                        text="Blogs"
-                        onClick={() => router.push("/blogs")}
-                    />
+                    {user?.active_organization_id &&
+                        <NormalButton
+                            text="Users"
+                            onClick={() => router.push("/users")}
+                        />
+                    }
+                    {user?.active_organization_id &&
+                        <NormalButton
+                            text="Blogs"
+                            onClick={() => router.push("/blogs")}
+                        />
+                    }
                 </Box>
             </Box>
             <Box
@@ -112,6 +116,13 @@ export const Sidebar = () => {
                     gap: "16px"
                 }}
             >
+                {user &&
+
+                    <NormalButton
+                        text="Create Organization"
+                        onClick={() => router.push("/create")}
+                    />
+                }
                 {user &&
 
                     <NormalButton
@@ -127,7 +138,7 @@ export const Sidebar = () => {
                                 try {
                                     await LogOut();
                                     enqueueSnackbar({ message: "Logged out!", variant: "success" })
-                                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                                 } catch (error) {
                                     enqueueSnackbar({ message: "Failed to log out!", variant: "error" })
                                 }

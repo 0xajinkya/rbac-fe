@@ -99,7 +99,7 @@ export const GlobalProvider = ({
                 if (user.content.data.active_organization_id === null) {
                     await FetchMemberOrganizations();
                     if (memberOrganizations.length === 0) {
-                        router.replace("/create");
+                        // router.replace("/create");
                         return;
                     }
                     setOpenMemberOrgModal(true);
@@ -119,7 +119,6 @@ export const GlobalProvider = ({
                 setStaff(staff.content.data);
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             } catch (error: unknown) {
-                // await LogOut()
                 if (pathname !== "/" && pathname !== "/sign-in" && pathname !== "/sign-up") {
                     enqueueSnackbar({ message: "You are not logged in, you cannot access this page!", variant: "warning" })
                     router.replace("/");
@@ -127,6 +126,7 @@ export const GlobalProvider = ({
             }
         }
         fetchMe();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
 
     return (
